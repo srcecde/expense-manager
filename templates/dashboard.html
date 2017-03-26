@@ -1,0 +1,30 @@
+{% extends "header.html" %}
+{% block body %}
+<!-- <header><link href="{{ url_for('static', filename='css/dash.css') }}" rel="stylesheet"></header> -->
+<div class="container">
+	<!-- <div class="row"> -->
+	<!-- <div class="Absolute-Center is-Responsive">
+	<div class="col-xs-12 col-md-10 col-md-offset-1"> -->
+<form action="/dashboard/" class="form-inline" method="post">
+<select class="form-control" name="monselect" align="right" required>
+    	<option value="" selected disabled>Select Category</option>
+    	{% for o in y %}
+        <option value="{{o}}">{{o}}</option>
+        {% endfor %}
+    </select>
+    <div class="form-group">
+            <button type="submit" class="btn btn-def btn-block">Go</button>
+    </div>
+   </form>
+   </div>
+<!-- </div>
+</div> -->
+<!-- </div> -->
+<div class='container' align='left'>
+			<embed type="image/svg+xml" src={{graph_data|safe}} style='max-width:1000px'/>
+			</div>
+
+
+
+
+{% endblock %}

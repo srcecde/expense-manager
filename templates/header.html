@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Expense Manager</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+	<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+</head>
+
+<header>
+	<div class="navbar-header">
+      <a class="navbar-brand" href="/">
+	  <img style="max-width:100px; margin-top: -38px;" src="{{ url_for('static', filename='images/mainlogo1.png') }}">
+	  </a>
+    </div>
+	
+	<div class = "container-fluid" style="background-color: steelblue;">
+	<ul class="nav navbar-nav navbar-right">
+		  
+		  <div style="margin-right: 10px; margin-left: 15px; margin-top: 5px; margin-bottom: 5px;"  class="container-fluid">
+			<h5>
+			{% if session.logged_in %}
+			<a href="/support-donate/" style="color: white;"> <span class="glyphicon glyphicon-heart"></span> Support   </a>&nbsp;&nbsp;
+&nbsp;
+			<a href="/logout/" style="color: white;"> <span class="glyphicon glyphicon-log-out"></span> Logout   </a>&nbsp;&nbsp;
+&nbsp;
+
+			{% else %}
+			<a href="/support-donate/" style="color: white;"> <span class="glyphicon glyphicon-heart"></span> Support   </a>&nbsp;&nbsp;
+&nbsp;
+			<a href="/login/" style="color: white;"><span class="glyphicon glyphicon-log-in"></span> Login   </a>&nbsp;&nbsp;
+&nbsp;		<a href="/register/" style="color: white;">
+			<span class="glyphicon glyphicon-pencil"></span> Sign up</a>
+			{% endif %}
+			</h5>	
+		
+	  	</div>
+    </ul>
+
+<ul class="nav navbar-nav navbar-left">
+		  
+		  <div style="margin-right: 10px; margin-left: 15px; margin-top: 5px; margin-bottom: 5px;"  class="container-fluid">
+			<h5>
+			{% if session.logged_in %}
+			<a href="/dashboard/" style="color: white;"> <span class="glyphicon glyphicon-dashboard"></span> Dashboard   </a>&nbsp;&nbsp;
+&nbsp;
+			<a href="/expense/" style="color: white;"> <span class="glyphicon glyphicon-usd"></span> Expense   </a>&nbsp;&nbsp;
+&nbsp;
+			
+			<a href="/configure/" style="color: white;" class="dropdown-toggle"> <span class="glyphicon glyphicon-cog"></span> Configure   </a>&nbsp;&nbsp;
+&nbsp;		
+			
+
+			{% endif %}
+			</h5>	
+		
+	  	</div>
+    </ul>
+<div class="dropdown">
+			<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+    <li><a href="#">Action</a></li>
+    <li><a href="#">Another action</a></li>
+    <li><a href="#">Something else here</a></li>
+    <li role="separator" class="divider"></li>
+    <li><a href="#">Separated link</a></li>
+  </ul>
+</div>
+
+    </div>
+	
+</header>
+
+<body>
+	<div class="container" style="min-height:100% width:80%">
+	{% with messages = get_flashed_messages() %}
+	  {% if messages %}
+	    {% for message in messages %}
+		  <div class="alert alert-warning alert-dismissible" role="alert">
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+			{{message}}
+		  </div>
+		{% endfor %}
+	  {% endif %}
+	{% endwith %}
+	
+	{% block body %}{% endblock %}
+	</div><div class="footer navbar-default navbar-fixed-bottom" id="footer">
+
+	
+</div>
+	<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+
+</body>
+{% block footer %}
+<footer class="container footer navbar-default navbar-fixed-bottom" id="footer" style="width: 100%;
+    height : 20px;
+    bottom: 0;
+    background-color:steelblue;
+    color: white;">
+    <div class="collapse navbar-collapse" id="myNavbar">
+    	<ul class="container-fluid nav navbar-nav" style="color: white; text-align: center; position: absolute; top: 0; left: 0; bottom: 0; right: 0;">
+    	<a href="/support-donate/" style="color: white;"> <span class="glyphicon glyphicon-heart"></span> Support   </a>
+        </ul>
+    </div>
+</footer>
+
+{% endblock %}
+</html>

@@ -1,0 +1,30 @@
+{% extends "header.html" %}
+
+{% block body %}
+<header><link href="{{ url_for('static', filename='css/carousel.css') }}" rel="stylesheet"></header>
+
+	<div class="container">
+	        <div id="carousel" style="top: 100px;">
+		        <figure><img src="{{ url_for('static', filename='images/1.png') }}" alt=""></figure>
+	    	    <figure><img src="{{ url_for('static', filename='images/2.png') }}" alt=""></figure>
+	    	    <figure><img src="{{ url_for('static', filename='images/3.png') }}" alt=""></figure>
+	    	    <figure><img src="{{ url_for('static', filename='images/4.png') }}" alt=""></figure>
+	    	    <figure><img src="{{ url_for('static', filename='images/5.png') }}" alt=""></figure>
+	    	    <figure><img src="{{ url_for('static', filename='images/6.png') }}" alt=""></figure>
+	    	    <figure><img src="{{ url_for('static', filename='images/7.png') }}" alt=""></figure>
+	    	    <figure><img src="{{ url_for('static', filename='images/8.png') }}" alt=""></figure>
+	    	    <figure><img src="{{ url_for('static', filename='images/9.png') }}" alt=""></figure>
+	        </div>
+	</div>
+
+{% endblock %}
+
+{% block footer %}
+<style type="text/css">
+	#footer{
+		display: none;
+	}
+
+</style>
+
+{% endblock %}

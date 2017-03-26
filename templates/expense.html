@@ -1,0 +1,73 @@
+{% extends 'header.html' %}
+{% block body %}
+
+<!-- <input class="datepicker" data-date-format="yyyy/mm/dd" id="deadline" type="date" name="deadline" required></input> -->
+
+<link href="{{ url_for('static', filename='css/config.css') }}" rel="stylesheet">
+
+<div class="container">
+	<div class="row">
+		<div class="Absolute-Center is-Responsive">
+			<div class="col-sm-12 col-md-10 col-md-offset-1">
+				<form action="/expense/" class="form-inline" method="post">
+					<div class="form-group input-group">
+			            <span class="input-group-addon">
+			            	<i class="glyphicon glyphicon-usd"></i>
+			            </span>
+							<input type="text" class="form-control" placeholder="Expense Amount" name="eamount" value="{{request.form.eamount}}">
+					</div>
+					<br>
+					<br>
+
+<!-- <form action="" class="form-inline" method="post"> -->
+<div class="form-group input-group">
+<span class="input-group-addon">
+			            	<i class="glyphicon glyphicon-collapse-down"></i>
+			            </span>
+    <!-- <label for="dayselect">Day:</label> -->
+    <select class="form-control" name="catselect" id="dayselect" required>
+    	<option value="" selected disabled>Select Category</option>
+    	{% for o in x %}
+        <option value="{{o}}">{{o}}</option>
+        {% endfor %}
+    </select>
+</div>
+			<!-- </form> -->
+					<!-- <div class="form-group">
+			            <button type="submit" class="btn btn-def btn-block">Add budget</button>
+			        </div> -->
+			 	<br>
+		   		<br>
+		   
+		   			<div class="form-group input-group">
+		            	<span class="input-group-addon">
+		            		<i class="glyphicon glyphicon-calendar"></i>
+		            	</span>
+							<input type="date" class="form-control" placeholder="yyyy/mm/dd"" name="edate" value="{{request.form.edate}}">
+					</div>
+					<br>
+					<br>
+
+					<div class="form-group input-group">
+		            	<!-- <span class="input-group-addon"> -->
+		            		<!-- <i class="glyphicon glyphicon-lock"></i>
+		            	</span> -->
+		            	<label for="edescription">Description:</label>
+							<textarea row="5" class="form-control" placeholder="Description"" name="edescription" value="{{request.form.edes}}"></textarea>
+					</div>
+			
+					<br>
+					<br>
+					<div class="form-group">
+		            	<button type="submit" class="btn btn-def btn-block">Add Expense</button>
+		          	</div>
+				<br>
+		    	<br>
+		    	</form>
+		    	</div>
+		    	</div>
+		    	</div>
+		    	</div>
+
+
+{% endblock %}
