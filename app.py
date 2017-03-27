@@ -2,6 +2,7 @@ from flask import Flask, render_template, redirect, url_for, request, session, f
 from wtforms import Form, TextField, validators, IntegerField, PasswordField, BooleanField, SelectField
 from functools import wraps
 from flask_sqlalchemy import SQLAlchemy
+from flask.ext.heroku import Heroku
 import collections
 from passlib.hash import sha256_crypt
 import datetime
@@ -13,8 +14,10 @@ import os
 app = Flask(__name__)
 app.config['SESSION_TYPE'] = 'memchached'
 app.config['SECRET_KEY'] = 'super secret key'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:root@localhost:5432/expmanager'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:root@localhost:5432/expmanager'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+heroku = Heroku(app)
 db = SQLAlchemy(app)
 
 

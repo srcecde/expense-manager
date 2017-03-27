@@ -5,23 +5,23 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
 
-engine = create_engine('postgresql://postgres:root@localhost:5432/', convert_unicode=True)
+# engine = create_engine('postgresql://postgres:root@localhost:5432/', convert_unicode=True)
 
-conn = engine.connect()
-conn.connection.connection.set_isolation_level(0)
+# conn = engine.connect()
+# conn.connection.connection.set_isolation_level(0)
 
-try:
-    conn.execute('create database expmanager')
-except:
-    pass
-conn.connection.connection.set_isolation_level(1)
-db_session = scoped_session(sessionmaker(autocommit=False,
-                                         autoflush=False,
-                                         bind=engine))
+# try:
+#     conn.execute('create database expmanager')
+# except:
+#     pass
+# conn.connection.connection.set_isolation_level(1)
+# db_session = scoped_session(sessionmaker(autocommit=False,
+#                                          autoflush=False,
+#                                          bind=engine))
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:root@localhost:5432/expmanager'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:root@localhost:5432/expmanager'
+# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 
