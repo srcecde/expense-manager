@@ -53,7 +53,7 @@ def dashboard():
             if request.method == 'POST':
                 catmon = request.form['monselect']
 
-            gcategory = m.db.session.query(m.Expense).join(m.users, m.Category).add_columns(m.Category.categories, m.Expense.date, m.Expense.description, m.Expense.amount).filter(m.users.username==session['username'], m.Expense.uid_fk==m.users.uid, m.Expense.cid_fk==m.Category.cid).order_by(m.Expense.date)
+            gcategory = m.db.session.query(m.Expense, m.users, m.Category).add_columns(m.Category.categories, m.Expense.date, m.Expense.description, m.Expense.amount).filter(m.users.username==session['username'], m.Category.cid == m.Expense.cid_fk, m.Expense.uid_fk == m.users.uid)
 
             ides = collections.defaultdict(list)
             iamount = collections.defaultdict(list)
@@ -64,6 +64,7 @@ def dashboard():
 
             for i in gcategory:
                 xx = i.date
+                print(i)
                 try:
                     if fmon[0] == xx.strftime("%B") and fmon[1] == xx.strftime("%Y"):
 
@@ -80,7 +81,6 @@ def dashboard():
 
             graph = pygal.Pie()
             graph.title = "Expense Manager"
-            # print(ides.values())
 
             for i, j in ides.items():
 
