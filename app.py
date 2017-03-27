@@ -64,7 +64,6 @@ def dashboard():
 
             for i in gcategory:
                 xx = i.date
-                print(i)
                 try:
                     if fmon[0] == xx.strftime("%B") and fmon[1] == xx.strftime("%Y"):
 
