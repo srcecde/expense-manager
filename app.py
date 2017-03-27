@@ -8,6 +8,7 @@ import datetime
 import pygal
 import model as m
 import gc
+import os
 
 app = Flask(__name__)
 app.config['SESSION_TYPE'] = 'memchached'
@@ -268,4 +269,5 @@ def register():
             return(str(e))
 
 if __name__ == '__main__':
-    app.run()
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
