@@ -2,9 +2,9 @@ from flask import Flask, render_template, redirect, url_for, request, session, f
 from wtforms import Form, TextField, validators, IntegerField, PasswordField, BooleanField, SelectField
 from functools import wraps
 from flask_sqlalchemy import SQLAlchemy
-from flask.ext.heroku import Heroku
 import collections
 from passlib.hash import sha256_crypt
+from flask_heroku import Heroku
 import datetime
 import pygal
 import model as m
