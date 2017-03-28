@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request, session, flash, Response, make_response
+from flask import Flask, render_template, redirect, url_for, request, session, flash
 from wtforms import Form, TextField, validators, IntegerField, PasswordField, BooleanField, SelectField
 from functools import wraps
 from flask_sqlalchemy import SQLAlchemy
@@ -16,7 +16,7 @@ app.config['SESSION_TYPE'] = 'memchached'
 app.config['SECRET_KEY'] = os.urandom(24)
 
 # Uncomment below two lines for localhost
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:root@localhost:5432/expmanager'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:root@localhost:5432/expmanager1'
 # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # For deploying on Heroku
@@ -70,7 +70,7 @@ def dashboard():
             gbudget = m.db.session.query(m.Budget.bdate, m.Budget.monthly_budget).filter_by(uid_fk=uid)
             gamt = m.db.session.query(m.Expense.date, m.Expense.amount).filter_by(uid_fk=uid)
 
-            print(gamt)
+            # print(gamt)
             add_bud = 0
             exp_amt = 0
             for i,j in zip(gbudget,gamt):
@@ -80,8 +80,8 @@ def dashboard():
                     if fmon[0] == xx.strftime("%B") and fmon[1] == xx.strftime("%Y"):
                         add_bud += i.monthly_budget
                         # print(add_bud)
-                    if fmon[0] == yy.strftime("%B") and fmon[1] == yy.strftime("%Y"):
-                        exp_amt += j.amount
+                    # if fmon[0] == yy.strftime("%B") and fmon[1] == yy.strftime("%Y"):
+                    #     exp_amt += j.amount
                 except:
                     print("SADFBN")
 
@@ -128,7 +128,7 @@ def dashboard():
 
             graph = pygal.Pie()
             graph.title = "Expense Manager"
-
+            print(ides.items())
             for i, j in ides.items():
 
                 graph.add(i, [{'value': j[-1], 'label': '\n,'.join(j[:-1])}])
@@ -156,8 +156,8 @@ def login_required(f):
 
 @app.route('/expense/', methods=['GET', 'POST'])
 def addexp():
-
     try:
+
         if session['logged_in']:
             uid = getuid()
             # print(uid)
@@ -168,6 +168,7 @@ def addexp():
                 x.append(i.__dict__['categories'])
 
         if request.method == "POST":
+
             amount = request.form['eamount']
             category = request.form['catselect']
             date = request.form['edate']
@@ -187,7 +188,6 @@ def addexp():
         return render_template('expense.html', x=x)
 
     except:
-
         return redirect(url_for('login'))
 
 
@@ -250,23 +250,37 @@ def config():
                 budget_add = m.Budget(b_uid, user_id, dt, budget)
                 m.db.session.add(budget_add)
                 m.db.session.commit()
+                flash("Your Budget is Added")
                 gc.collect()
                 return redirect(url_for('config'))
 
             if request.method == 'POST' and request.form['category']:
+                user_id = getuid()
+                cat_toggle = False
+                s = m.db.session.query(m.Category.categories).filter_by(uid_fk=user_id)
+                cat_cmp = []
+                for i in s:
+                    cat_cmp.append(i.categories)
+
                 category = request.form['category']
 
-                user_id = getuid()
+                for i in cat_cmp:
+                    if i == category.lower():
+                        cat_toggle = True
 
-                cid = m.db.session.query(m.Category.cid)
-                c_uid = cid.all()
-                c_uid = len(c_uid) + 1
+                if cat_toggle:
+                    flash("Category already exist")
+                else:
+                    cid = m.db.session.query(m.Category.cid)
+                    c_uid = cid.all()
+                    c_uid = len(c_uid) + 1
 
-                category_add = m.Category(c_uid, user_id, category)
-                m.db.session.add(category_add)
-                m.db.session.commit()
-                gc.collect()
-                return redirect(url_for('config'))
+                    category_add = m.Category(c_uid, user_id, category.lower())
+                    m.db.session.add(category_add)
+                    m.db.session.commit()
+                    gc.collect()
+                    flash("Your Category is Added")
+                    return redirect(url_for('config'))
 
             return render_template('configure.html')
         else:
@@ -295,21 +309,24 @@ def register():
 
                 email = request.form['email']
                 password = sha256_crypt.encrypt((str(request.form['password'])))
-                x = m.users.query.filter_by(username=username).all()
+                try:
+                    x = m.users.query.filter_by(username=username).all()
 
-                if len(x) > 0:
-                    flash("Username taken")
-                    return render_template('register.html')
-                else:
-                    uid = m.db.session.query(m.users.uid)
-                    i_uid = uid.all()
-                    i_uid = len(i_uid) + 1
+                    if len(x) > 0:
+                        flash("Username taken")
+                        return render_template('register.html')
+                    else:
+                        uid = m.db.session.query(m.users.uid)
+                        i_uid = uid.all()
+                        i_uid = len(i_uid) + 1
 
-                    user = m.users(i_uid, username, password, email)
-                    m.db.session.add(user)
-                    m.db.session.commit()
-                    flash("Done")
-                    return redirect(url_for('dashboard'))
+                        user = m.users(i_uid, username, password, email)
+                        m.db.session.add(user)
+                        m.db.session.commit()
+                        flash("Done")
+                        return redirect(url_for('dashboard'))
+                except:
+                    print("Error")
 
             return render_template('register.html')
         except Exception as e:
