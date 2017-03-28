@@ -5,6 +5,10 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
 
+app = Flask(__name__)
+
+#Uncomment beow lines for running on localhost
+
 # engine = create_engine('postgresql://postgres:root@localhost:5432/', convert_unicode=True)
 
 # conn = engine.connect()
@@ -19,7 +23,7 @@ from sqlalchemy.ext.declarative import declarative_base
 #                                          autoflush=False,
 #                                          bind=engine))
 
-app = Flask(__name__)
+
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:root@localhost:5432/expmanager'
 # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)

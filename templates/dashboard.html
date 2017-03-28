@@ -1,10 +1,7 @@
 {% extends "header.html" %}
 {% block body %}
-<!-- <header><link href="{{ url_for('static', filename='css/dash.css') }}" rel="stylesheet"></header> -->
+
 <div class="container">
-	<!-- <div class="row"> -->
-	<!-- <div class="Absolute-Center is-Responsive">
-	<div class="col-xs-12 col-md-10 col-md-offset-1"> -->
 <form action="/dashboard/" class="form-inline" method="post">
 <select class="form-control" name="monselect" align="right" required>
     	<option value="" selected disabled>Select Category</option>
@@ -15,16 +12,17 @@
     <div class="form-group">
             <button type="submit" class="btn btn-def btn-block">Go</button>
     </div>
+    <div class="form-group" style="float: right; left:50px">
+<h4>Spent : <span class="label label-info" default="Please select Month" style="width: 50px; height: 50px">{{exp_g}}&nbsp;&nbsp;</span></h4>
+</div>
+<div class="form-group" style="float: right;">
+        <h4>Budget : <span class="label label-info" default="Please select Month" style="width: 50px; height: 50px">&nbsp;&nbsp;{{bud_g}}</span></h4></div>
+
    </form>
    </div>
-<!-- </div>
-</div> -->
-<!-- </div> -->
-<div class='container' align='left'>
+
+<div class='container'>
 			<embed type="image/svg+xml" src={{graph_data|safe}} style='max-width:1000px'/>
 			</div>
-
-
-
 
 {% endblock %}

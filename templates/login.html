@@ -1,6 +1,11 @@
 {% extends "header.html" %}
 {% block body %}
 
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<link href="http://getbootstrap.com/dist/css/bootstrap.css" rel="stylesheet" type="text/css" />
+<script src="http://getbootstrap.com/dist/js/bootstrap.js"></script>
+<script src="http://1000hz.github.io/bootstrap-validator/dist/validator.min.js"></script>
+
 <header><link href="{{ url_for('static', filename='css/login.css') }}" rel="stylesheet"></header>
 
 <div class="container">
@@ -12,7 +17,7 @@
 	<h4>Please login</h4>
 	<br>
 
-	<form action="" data-toggle="validator" role="form" class="form-inline" method="post">
+	<form action="" data-toggle="validator" role="form" class="form-inline" data-toggle="validator" method="post">
 			<div class="form-group input-group">
             <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
 		<input type="text" class="form-control" placeholder="Username" name="username" value="{{request.form.username}}" required></div>

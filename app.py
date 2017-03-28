@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request, session, flash
+from flask import Flask, render_template, redirect, url_for, request, session, flash, Response, make_response
 from wtforms import Form, TextField, validators, IntegerField, PasswordField, BooleanField, SelectField
 from functools import wraps
 from flask_sqlalchemy import SQLAlchemy
@@ -13,10 +13,15 @@ import os
 
 app = Flask(__name__)
 app.config['SESSION_TYPE'] = 'memchached'
-app.config['SECRET_KEY'] = 'super secret key'
+app.config['SECRET_KEY'] = os.urandom(24)
+
+# Uncomment below two lines for localhost
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:root@localhost:5432/expmanager'
+# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+# For deploying on Heroku
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 heroku = Heroku(app)
 db = SQLAlchemy(app)
 
@@ -57,14 +62,53 @@ def dashboard():
             if request.method == 'POST':
                 catmon = request.form['monselect']
 
-            gcategory = m.db.session.query(m.Expense, m.users, m.Category).add_columns(m.Category.categories, m.Expense.date, m.Expense.description, m.Expense.amount).filter(m.users.username==session['username'], m.Category.cid == m.Expense.cid_fk, m.Expense.uid_fk == m.users.uid)
-
-            ides = collections.defaultdict(list)
-            iamount = collections.defaultdict(list)
             try:
                 fmon = catmon.split("-")
             except:
                 pass
+
+            gbudget = m.db.session.query(m.Budget.bdate, m.Budget.monthly_budget).filter_by(uid_fk=uid)
+            gamt = m.db.session.query(m.Expense.date, m.Expense.amount).filter_by(uid_fk=uid)
+
+            print(gamt)
+            add_bud = 0
+            exp_amt = 0
+            for i,j in zip(gbudget,gamt):
+                xx = i.bdate
+
+                try:
+                    if fmon[0] == xx.strftime("%B") and fmon[1] == xx.strftime("%Y"):
+                        add_bud += i.monthly_budget
+                        # print(add_bud)
+                    if fmon[0] == yy.strftime("%B") and fmon[1] == yy.strftime("%Y"):
+                        exp_amt += j.amount
+                except:
+                    print("SADFBN")
+
+            for j in gamt:
+                yy = j.date
+                try:
+                    if fmon[0] == yy.strftime("%B") and fmon[1] == yy.strftime("%Y"):
+                        exp_amt += j.amount
+                except:
+                    print("SADFBN")
+
+            bud_g = str()
+            exp_g = str()
+
+            try:
+                bud_g = ' '.join(fmon) + ' : ' + str(add_bud)
+                exp_g = str(exp_amt)
+            except:
+                pass
+
+            if exp_amt > add_bud:
+                    flash('You Expense is exceeding the budget')
+
+            gcategory = m.db.session.query(m.Expense, m.users, m.Category).add_columns(m.Category.categories, m.Expense.date, m.Expense.description, m.Expense.amount).filter(m.users.username==session['username'], m.Category.cid == m.Expense.cid_fk, m.Expense.uid_fk == m.users.uid)
+
+            ides = collections.defaultdict(list)
+            iamount = collections.defaultdict(list)
 
             for i in gcategory:
                 xx = i.date
@@ -92,7 +136,7 @@ def dashboard():
             graph_data = graph.render_data_uri()
             gc.collect()
 
-            return render_template('dashboard.html', graph_data=graph_data, y=set(y))
+            return render_template('dashboard.html', graph_data=graph_data, y=set(y), bud_g=bud_g, exp_g=exp_g)
         else:
             return redirect(url_for('login'))
     except:

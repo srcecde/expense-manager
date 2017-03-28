@@ -1,22 +1,19 @@
 {% extends "header.html" %}
 
 {% block body %}
-<link href="{{ url_for('static', filename='css/register.css') }}" rel="stylesheet">
-
 <script src="http://code.jquery.com/jquery.min.js"></script>
 <link href="http://getbootstrap.com/dist/css/bootstrap.css" rel="stylesheet" type="text/css" />
 <script src="http://getbootstrap.com/dist/js/bootstrap.js"></script>
 <script src="http://1000hz.github.io/bootstrap-validator/dist/validator.min.js"></script>
 
-
-	<div class="container" style="position:absolute; left:0; right:0; margin:auto;">
+<link href="{{ url_for('static', filename='css/register.css') }}" rel="stylesheet">
+	<div class="container">
 	<br>
 	<div class="container">
 	<div class="row">
 		<div class="Absolute-Center is-Responsive">
 			<div class="col-sm-12 col-md-10 col-md-offset-1">
 	<form id="identicalForm" method="post" data-toggle="validator" role="form" action="/register/">
-		
 
 		<div class="form-group input-group">
             <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
@@ -25,7 +22,7 @@
 		<div class="form-group input-group">
             <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
 
-			<input type="email" pattern="^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$" class="form-control" placeholder="Username" name="email" value="{{request.form.email}}" required></div>
+			<input type="email" pattern="^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$" class="form-control" placeholder="youremail@mail.com" name="email" value="{{request.form.email}}" required></div>
 			<div>
 			<div class="form-group input-group">
             <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>

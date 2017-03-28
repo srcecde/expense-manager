@@ -2,19 +2,22 @@
 {% block body %}
 
 <!-- <input class="datepicker" data-date-format="yyyy/mm/dd" id="deadline" type="date" name="deadline" required></input> -->
-
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<link href="http://getbootstrap.com/dist/css/bootstrap.css" rel="stylesheet" type="text/css" />
+<script src="http://getbootstrap.com/dist/js/bootstrap.js"></script>
+<script src="http://1000hz.github.io/bootstrap-validator/dist/validator.min.js"></script>
 <link href="{{ url_for('static', filename='css/config.css') }}" rel="stylesheet">
 
 <div class="container">
 	<div class="row">
 		<div class="Absolute-Center is-Responsive">
 			<div class="col-sm-12 col-md-10 col-md-offset-1">
-				<form action="/expense/" class="form-inline" method="post">
+				<form action="/expense/" class="form-inline" method="post" data-toggle="validator">
 					<div class="form-group input-group">
 			            <span class="input-group-addon">
 			            	<i class="glyphicon glyphicon-usd"></i>
 			            </span>
-							<input type="text" class="form-control" placeholder="Expense Amount" name="eamount" value="{{request.form.eamount}}">
+							<input type="number" class="form-control" placeholder="Expense Amount" pattern= name="eamount" value="{{request.form.eamount}}" required>
 					</div>
 					<br>
 					<br>
