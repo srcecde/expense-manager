@@ -16,8 +16,8 @@ app.config['SESSION_TYPE'] = 'memchached'
 app.config['SECRET_KEY'] = os.urandom(24)
 
 # Uncomment below two lines for localhost
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:root@localhost:5432/expmanager1'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:root@localhost:5432/expmanager1'
+# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # For deploying on Heroku
 # app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']

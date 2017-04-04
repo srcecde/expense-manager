@@ -78,7 +78,6 @@ class Expense(db.Model):
     amount = db.Column('amount', db.Integer)
     description = db.Column('description', db.String(200))
 
-
     def __init__(self, eid, uid_fk, cid_fk, date, amount, description):
         self.eid = eid
         self.uid_fk = uid_fk
@@ -86,13 +85,3 @@ class Expense(db.Model):
         self.date = date
         self.amount = amount
         self.description = description
-
-
-class Box12(db.Model):
-    id = db.Column('id', db.Integer, primary_key=True, autoincrement=True)
-    username = db.Column(db.Date, unique=True)
-    email = db.Column(db.String(120), unique=True)
-
-    def __init__(self, username, email):
-        self.username = username
-        self.email = email
