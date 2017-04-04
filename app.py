@@ -16,11 +16,11 @@ app.config['SESSION_TYPE'] = 'memchached'
 app.config['SECRET_KEY'] = os.urandom(24)
 
 # Uncomment below two lines for localhost
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:root@localhost:5432/expmanager1'
-# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:root@localhost:5432/expmanager1'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # For deploying on Heroku
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+# app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 
 heroku = Heroku(app)
 db = SQLAlchemy(app)
@@ -70,7 +70,6 @@ def dashboard():
             gbudget = m.db.session.query(m.Budget.bdate, m.Budget.monthly_budget).filter_by(uid_fk=uid)
             gamt = m.db.session.query(m.Expense.date, m.Expense.amount).filter_by(uid_fk=uid)
 
-            # print(gamt)
             add_bud = 0
             exp_amt = 0
             for i,j in zip(gbudget,gamt):
@@ -79,9 +78,6 @@ def dashboard():
                 try:
                     if fmon[0] == xx.strftime("%B") and fmon[1] == xx.strftime("%Y"):
                         add_bud += i.monthly_budget
-                        # print(add_bud)
-                    # if fmon[0] == yy.strftime("%B") and fmon[1] == yy.strftime("%Y"):
-                    #     exp_amt += j.amount
                 except:
                     print("SADFBN")
 
@@ -313,7 +309,7 @@ def register():
                     x = m.users.query.filter_by(username=username).all()
 
                     if len(x) > 0:
-                        flash("Username taken")
+                        flash("Username Taken")
                         return render_template('register.html')
                     else:
                         uid = m.db.session.query(m.users.uid)
